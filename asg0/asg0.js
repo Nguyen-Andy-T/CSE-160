@@ -1,5 +1,3 @@
-```
-
 let canvas, ctx;
 const scale = 20;
 
@@ -115,4 +113,4 @@ function handleDrawOperationEvent() {
       break;
   }
 }
-```
+
