@@ -97,7 +97,6 @@ function addActionsForHtmlUI(){
   document.getElementById('clearButton').onclick = function() { 
     g_shapesList = []; 
     renderAllShapes(); 
-    
     // Stop the flashing sun if it is active.
     if (sunInterval) {
         clearInterval(sunInterval);
@@ -152,7 +151,6 @@ function click(ev) {
   let [x, y] = convertCoordinatesEventToGL(ev);
   let shape;
   
-  // Create an instance of a shape based on the selected type.
   if (g_selectedType === POINT) {
     shape = new Point();
   } else if (g_selectedType === TRIANGLE) {
@@ -173,13 +171,9 @@ function click(ev) {
 //--------------------------------------------------------------------------
 // Rendering Function
 //--------------------------------------------------------------------------
-
-// Updated to output "numdot: <number> ms: <renderTime> fps: <fps>"
 function renderAllShapes() {
   var startTime = performance.now();
-  // Clear the canvas.
   gl.clear(gl.COLOR_BUFFER_BIT);
-  // Loop through the shapes list and call each shape's render method.
   var len = g_shapesList.length;
   for (var i = 0; i < g_shapesList.length; i++) {
     g_shapesList[i].render();
@@ -188,7 +182,7 @@ function renderAllShapes() {
   sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration)/10, "numdot"); 
 }
 
-// Utility: Update an HTML element's text.
+
 function sendTextToHTML(text, htmlID) {
   var htmlElm = document.getElementById(htmlID);
   if (!htmlElm) {
@@ -216,9 +210,7 @@ class Point{
       var size = this.size;
 
       gl.disableVertexAttribArray(a_Position);
-      // Pass the position of a point to a_Position variable
       gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-      // Pass the color of a point to u_FragColor variable
       gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
       // Pass the size of a point to u_Size variable
       gl.uniform1f(u_Size, size);
@@ -244,14 +236,9 @@ class Triangle{
       var rgba = this.color;
       var size = this.size;
       gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-      // Pass the size of a point to u_Size variable
       gl.uniform1f(u_Size, size);
-      // Draw
-      //gl.drawArrays(gl.POINTS, 0, 1);
       var d = this.size/200.0; 
-      //drawTriangle( [xy[0], xy[1], xy[0]+d, xy[1], xy[0], xy[1]+d] );
       var d = this.size / 200.0;
-
       if (this.flipX) {
         drawTriangle([xy[0], xy[1], xy[0] - d, xy[1], xy[0], xy[1] + d]);
       } else {
@@ -263,17 +250,14 @@ class Triangle{
 }
 
 function drawTriangle(vertices) {
-  var n = 3; // The number of vertices
+  var n = 3;
 
   var vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {
     console.log('Failed to create the buffer object');
     return -1;
   }
-
-  // Bind the buffer object to target
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
@@ -292,8 +276,6 @@ class Circle{
       var xy = this.position;
       var rgba = this.color;
       var size = this.size;
-
-      // Pass the color of a point to u_FragColor variable
       gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
 
       var d = this.size/200.0; 
@@ -349,9 +331,8 @@ function drawSun() {
       vertices.push(x, y);
   }
   
-  // Use a yellow color modulated by sunBrightness.
   let color = [1.0 * sunBrightness, 1.0 * sunBrightness, 0.0, 1.0];
-  
+
   // Create a buffer and draw the sun's center using a TRIANGLE_FAN.
   let vertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -363,11 +344,8 @@ function drawSun() {
   gl.deleteBuffer(vertexBuffer);
   
   let numRays = 20;
-  // The inner radius is the same as the sun's radius.
   let rayInner = r;
-  // Increase the outer radius for longer rays.
   let rayOuter = 0.50;
-  // Define a small angular offset for ray width.
   let delta = (2 * Math.PI / numRays) * 0.3;
   for (let i = 0; i < numRays; i++) {
       let angle = i * 2 * Math.PI / numRays;
@@ -385,7 +363,6 @@ function drawSun() {
           outerX, outerY,
           outerX2, outerY2
       ];
-      // Create a buffer for the ray, send its data, and draw it.
       let rayBuffer = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, rayBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rayVertices), gl.STATIC_DRAW);
@@ -397,9 +374,6 @@ function drawSun() {
   }
 }
 function drawGrass() {
-  // Bottom rectangle coordinates (normalized device coords)
-  // Covers from left (-1.0) to right (1.0) along the x-axis
-  // and sits near the bottom y-axis (-1.0 to -0.5)
   let vertices = [
       -1.0, -1.0,  // Bottom Left
        1.0, -1.0,  // Bottom Right
@@ -409,17 +383,13 @@ function drawGrass() {
        1.0, -0.5   // Top Right
   ];
 
-  // Create a buffer for the grass rectangle
   let vertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
-
-  // Set grass color (green)
   gl.uniform4f(u_FragColor, 0.0, 0.8, 0.0, 1.0);  // Dark Green
 
-  // Draw as two triangles
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   gl.deleteBuffer(vertexBuffer);
@@ -435,13 +405,9 @@ function main() {
   setupWebGL();
   connectVariablesToGLSL();
   addActionsForHtmlUI();
-
-  // Register mouse events: click and click+drag.
   canvas.onmousedown = click;
   canvas.onmousemove = function(ev) { 
     if (ev.buttons === 1) { click(ev); } 
   };
-
-  // Clear the canvas initially.
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
