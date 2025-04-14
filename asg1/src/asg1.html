@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ASG1: Andy Nguyen - Painting Canvas</title>
+    <style>
+      body { font-family: sans-serif; }
+      canvas { border: 1px solid black; }
+      .slider { vertical-align: middle; }
+    </style>
+  </head>
+  <body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+      Please use a browser that supports "canvas"
+    </canvas>
+    
+    <p id="numdot"> numdot: -- ms: -- fps: -- </p>
+    
+    <!-- Color selection buttons -->
+    <button type="button" id="green">Green</button>
+    <button type="button" id="red">Red</button>
+    
+    <!-- Clear canvas button -->
+    <button type="button" id="clearButton">Clear</button>
+    
+    <p>
+      <!-- Shape selection buttons -->
+      <button type="button" id="pointButton">Point</button>
+      <button type="button" id="triButton">Triangle</button>
+      <button type="button" id="circleButton">Circle</button>
+      <button type="button" id="sunButton">Draw Sun and Grass</button>
+
+
+
+    </p>
+    
+    <p>
+      Red <input type="range" min="0" max="100" value="0" class="slider" id="redSlide">
+    </p>
+    <p>
+      Green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlide">
+    </p>
+    <p>
+      Blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlide">
+    </p>
+    <p>
+      Size <input type="range" min="10" max="50" value="0" class="slider" id="sizeSlide">
+    </p>
+    <p>
+      Circle Segments <input type="range" min="8" max="50" value="8" class="slider" id="segSlide">
+    </p>
+    
+    <!-- Load WebGL utility libraries -->
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    
+    <!-- Load shape classes and main JavaScript file -->
+ 
+    <script src="asg1.js"></script>
+    
+    <hr>
+    <p><strong>Name:</strong>Andy Nguyen</p>
+    <p><strong>Email:</strong> anguy354@ucsc.edu</p>
+  </body>
+</html>
