@@ -1,0 +1,58 @@
+<!-- asg2.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ASG2: Andy Nguyen – Blocky Spider</title>
+  <style>
+    body { font-family: sans-serif; }
+    canvas { border: 1px solid black; display: block; margin: 0 auto; }
+    .slider { vertical-align: middle; margin: 0 10px; }
+    .controls { text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body onload="main()">
+  <canvas id="webgl" width="600" height="600">WebGL not supported</canvas>
+
+  <div class="controls">
+    Global Rotate Y:
+    <input id="globalRotationSlider_y" type="range" min="-180" max="180" value="0" class="slider">
+    Global Rotate X:
+    <input id="globalRotationSlider_x" type="range" min="-180" max="180" value="0" class="slider">
+    <p style="font-size:0.8em;">(or drag on canvas)</p>
+  </div>
+
+  <div class="controls">
+    Leg Upper Angle:
+    <input id="legUpperSlider" type="range" min="-45" max="45" value="0" class="slider">
+    Leg Lower Angle:
+    <input id="legLowerSlider" type="range" min="-45" max="45" value="0" class="slider">
+    <button id="toggleWalkBtn">Start Walk</button>
+    <p style="font-size:0.8em;">(bend hip and knee separately)</p>
+  </div>
+
+  <div class="controls">
+    Head Rotate:
+    <input id="headRotationSlider" type="range" min="-45" max="45" value="0" class="slider">
+    <p style="font-size:0.8em;">(shift-click to poke)</p>
+  </div>
+
+  <p id="fpsCounter" style="text-align:center;">ms: --, fps: --</p>
+
+  <script src="../lib/webgl-utils.js"></script>
+  <script src="../lib/cuon-utils.js"></script>
+  <script src="../lib/cuon-matrix-cse160.js"></script>
+  <script src="../lib/webgl-debug.js"></script>
+  <script src="cube.js"></script>
+  <script src="asg2.js"></script>
+  <hr>
+  <h2>ASG2: Blocky Spider!</h2>
+  <p>
+   NOTE TO GRADER: Use the sliders above to rotate the view (Global Rotate), bend each leg at the hip and knee joints independently, and swivel the head. Shift-click on the canvas to “poke” the spider’s head. The purple cubes on the front of the cephalothorax are the eyes, the small brown cube at the front is the head, and the series of cubes extending backward are the abdomen, legs, and spinnerets.
+  </p>
+  <hr>
+  <p><strong>Name:</strong>Andy Nguyen</p>
+  <p><strong>Email:</strong> anguy354@ucsc.edu</p>
+  <hr>
+</body>
+</html>
