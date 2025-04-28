@@ -1,5 +1,4 @@
-// shape.js
-// --- build once ---
+// cube.js
 let cubeBuffer = null;
 let cubeVCount = 0;
 function initCubeVertexBuffer(gl) {
