@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blocky Animal World - Andy Nguyen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #333;
+      background: linear-gradient(to bottom, #87ceeb 0%, #b0e2ff 100%);
+    }
+    
+    .controls {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .buttons {
+      margin: 15px 0;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .control-item {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .key {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-family: monospace;
+      margin-right: 5px;
+    }
+    
+    .fov-control {
+      margin: 15px 0;
+    }
+    
+    .info {
+      text-align: left;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body onload="main()">
+  <div class="container">
+    <h1> Farm World Explorer</h1>
+    <p>A 32x32 world with dirt blocks, animals, and hills</p>
+    
+    <div class="controls">
+      <div class="buttons">
+        <button id="toggleAnimals">Toggle Animals</button>
+        <button id="toggleDayNight">Day/Night</button>
+        <button id="generateWorld">Generate World</button>
+      </div>
+      
+      <h3>Controls:</h3>
+      <div class="control-group">
+        <div class="control-item">
+          <span class="key">W</span> Forward
+        </div>
+        <div class="control-item">
+          <span class="key">S</span> Backward
+        </div>
+        <div class="control-item">
+          <span class="key">A</span> Left
+        </div>
+        <div class="control-item">
+          <span class="key">D</span> Right
+        </div>
+        <div class="control-item">
+          <span class="key">Q</span> Look Left
+        </div>
+        <div class="control-item">
+          <span class="key">E</span> Look Right
+        </div>
+        <div class="control-item">
+          <span class="key">Space</span> Jump
+        </div>
+      </div>
+      
+      <div class="fov-control">
+        <label for="fovSlider">Field of View: </label>
+        <input type="range" id="fovSlider" min="30" max="90" value="60">
+        <span id="fovValue">60°</span>
+      </div>
+    </div>
+    
+    <canvas id="asg3" width="750" height="600">
+      Please use a browser that supports HTML5 canvas.
+    </canvas>
+    
+    <div class="info">
+      <p><strong>Student:</strong> Andy Nguyen | <strong>Assignment:</strong> #3 - Creating a Virtual World <strong>Email:</strong> anguy354@ucsc.edu</p>
+      <p>Features: 3D terrain with mini hills, textured dirt blocks, animals (pigs and cows), and flowers.</p>
+      <p>Notes for grader: To see the world, hold s for a couple seconds and then press q to view the world and walk around. Unfortunaly i didn't finish the other buttons except generate world and pov.</p>
+    </div>
+  </div>
+  
+  <!-- WebGL Libraries -->
+  <script src="lib/webgl-utils.js"></script>
+  <script src="lib/webgl-debug.js"></script>
+  <script src="lib/cuon-utils.js"></script>
+  <script src="lib/cuon-matrix-cse160.js"></script>
+  
+  <!-- Project Scripts -->
+  <script src="point.js"></script>
+  <script src="triangle.js"></script>
+  <script src="circle.js"></script>
+  <script src="cube.js"></script>
+  <script src="world.js"></script>
+  <script src="camera.js"></script>
+
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // FOV slider functionality
+      const fovSlider = document.getElementById('fovSlider');
+      const fovValue = document.getElementById('fovValue');
+      
+      fovSlider.addEventListener('input', function() {
+        const value = this.value;
+        fovValue.textContent = value + '°';
+        
+        if (typeof g_camera !== 'undefined') {
+          g_camera.fov = Number(value);
+          g_camera.updateProjectionMatrix(document.getElementById('asg3').width, document.getElementById('asg3').height);
+        }
+      });
+      
+      // Button controls
+      document.getElementById('toggleAnimals').addEventListener('click', function() {
+        if (typeof toggleAnimals === 'function') {
+          toggleAnimals();
+        }
+      });
+      
+      document.getElementById('toggleDayNight').addEventListener('click', function() {
+        if (typeof toggleDayNight === 'function') {
+          toggleDayNight();
+        }
+      document.getElementById('generateWorld').addEventListener('click', function(){
+        if (typeof generateWorld === 'function') 
+          generateWorld();
+
+      });
+
+      });
+    });
+  </script>
+</body>
+</html>
