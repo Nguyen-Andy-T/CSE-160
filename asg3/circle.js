@@ -1,4 +1,4 @@
-// Circle.js - Class for creating and rendering circle approximations in the voxel world
+// Circle.js 
 
 class Circle {
   constructor() {

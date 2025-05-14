@@ -1,4 +1,4 @@
-// Triangle.js - Class for creating and rendering textured triangles in the voxel world
+// Triangle.js 
 
 class Triangle {
   constructor() {

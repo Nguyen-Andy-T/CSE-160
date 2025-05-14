@@ -1,4 +1,4 @@
-// Point.js - Class for creating and rendering points in the voxel world
+// Point.js - 
 
 class Point {
   constructor() {

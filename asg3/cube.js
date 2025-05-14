@@ -1,4 +1,4 @@
-// Updated Cube.js with static texture methods
+// Cube.js 
 
 class Cube {
   constructor() {
