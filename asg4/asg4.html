@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blocky Animal World with Lighting - Andy Nguyen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #333;
+      background: linear-gradient(to bottom, #87ceeb 0%, #b0e2ff 100%);
+    }
+    
+    .controls {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .control-section {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    
+    .control-section:last-child {
+      border-bottom: none;
+    }
+    
+    .control-section h3 {
+      margin-top: 0;
+      color: #555;
+    }
+    
+    .buttons {
+      margin: 15px 0;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .control-item {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .key {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-family: monospace;
+      margin-right: 5px;
+    }
+    
+    .slider-control {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .slider-control label {
+      min-width: 120px;
+      font-weight: 500;
+    }
+    
+    .slider-control input[type="range"] {
+      flex-grow: 1;
+      margin: 0 10px;
+    }
+    
+    .slider-control span {
+      min-width: 40px;
+      text-align: right;
+    }
+    
+    .color-sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .info {
+      text-align: left;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body onload="main()">
+  <div class="container">
+    <h1>🌟 Farm World with Lighting</h1>
+    <p>A 32x32 world with dirt blocks, animals, hills, and Phong lighting!</p>
+    
+    <div class="controls">
+      <!-- World Controls -->
+      <div class="control-section">
+        <h3>🌍 World Controls</h3>
+        <div class="buttons">
+          <button id="toggleAnimals">Toggle Animals</button>
+          <button id="toggleDayNight">Day/Night</button>
+          <button id="generateWorld">Generate World</button>
+        </div>
+      </div>
+      
+      <!-- Lighting Controls -->
+      <div class="control-section">
+        <h3>💡 Lighting Controls</h3>
+        <div class="buttons">
+          <button id="toggleLighting">Toggle Lighting</button>
+          <button id="toggleNormals">Show Normals</button>
+        </div>
+        
+        <div class="slider-control">
+          <label for="lightSlider">Light Position:</label>
+          <input type="range" id="lightSlider" min="0" max="360" value="0">
+          <span id="lightAngleValue">0°</span>
+        </div>
+        
+        <div class="color-sliders">
+          <div class="slider-control">
+            <label for="lightRedSlider">Light Red:</label>
+            <input type="range" id="lightRedSlider" min="0" max="100" value="100">
+            <span id="lightRedValue">100%</span>
+          </div>
+          <div class="slider-control">
+            <label for="lightGreenSlider">Light Green:</label>
+            <input type="range" id="lightGreenSlider" min="0" max="100" value="100">
+            <span id="lightGreenValue">100%</span>
+          </div>
+          <div class="slider-control">
+            <label for="lightBlueSlider">Light Blue:</label>
+            <input type="range" id="lightBlueSlider" min="0" max="100" value="100">
+            <span id="lightBlueValue">100%</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Camera Controls -->
+      <div class="control-section">
+        <h3>📷 Camera Controls</h3>
+        <div class="control-group">
+          <div class="control-item">
+            <span class="key">W</span> Forward
+          </div>
+          <div class="control-item">
+            <span class="key">S</span> Backward
+          </div>
+          <div class="control-item">
+            <span class="key">A</span> Left
+          </div>
+          <div class="control-item">
+            <span class="key">D</span> Right
+          </div>
+          <div class="control-item">
+            <span class="key">Q</span> Look Left
+          </div>
+          <div class="control-item">
+            <span class="key">E</span> Look Right
+          </div>
+          <div class="control-item">
+            <span class="key">M</span> Mouse Look
+          </div>
+          <div class="control-item">
+            <span class="key">Space</span> Jump
+          </div>
+        </div>
+        
+        <div class="slider-control">
+          <label for="fovSlider">Field of View:</label>
+          <input type="range" id="fovSlider" min="30" max="90" value="60">
+          <span id="fovValue">60°</span>
+        </div>
+      </div>
+    </div>
+    
+    <canvas id="asg3" width="800" height="600">
+      Please use a browser that supports HTML5 canvas.
+    </canvas>
+    
+    <div class="info">
+      <p><strong>Student:</strong> Andy Nguyen | <strong>Assignment:</strong> #4 - World Lighting <strong>Email:</strong> anguy354@ucsc.edu</p>
+      <p><strong>Features:</strong> Phong lighting with ambient, diffuse, and specular components. Point light that moves around the world. Normal visualization mode. To see the world just go backwards for a few seconds and use q to turn your head left. Feel free to walk around and toggle any buttons for testing.</p>
+      <p><strong>Controls:</strong> Use the lighting controls above to toggle lighting on/off, visualize normals, move the light, and change light color.</p>
+    </div>
+  </div>
+  
+  <!-- WebGL Libraries -->
+  <script src="lib/webgl-utils.js"></script>
+  <script src="lib/webgl-debug.js"></script>
+  <script src="lib/cuon-utils.js"></script>
+  <script src="lib/cuon-matrix-cse160.js"></script>
+  
+  <!-- Project Scripts -->
+  <script src="point.js"></script>
+  <script src="triangle.js"></script>
+  <script src="circle.js"></script>
+  <script src="cube.js"></script>
+  <script src="sphere.js"></script>
+  <script src="world.js"></script>
+  <script src="camera.js"></script>
+
+  <!-- UI Control Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // FOV slider functionality
+      const fovSlider = document.getElementById('fovSlider');
+      const fovValue = document.getElementById('fovValue');
+      
+      fovSlider.addEventListener('input', function() {
+        const value = this.value;
+        fovValue.textContent = value + '°';
+        
+        if (typeof g_camera !== 'undefined') {
+          g_camera.fov = Number(value);
+        }
+      });
+      
+      // Light angle slider
+      const lightSlider = document.getElementById('lightSlider');
+      const lightAngleValue = document.getElementById('lightAngleValue');
+      
+      lightSlider.addEventListener('input', function() {
+        const value = this.value;
+        lightAngleValue.textContent = value + '°';
+      });
+      
+      // Light color sliders
+      const lightRedSlider = document.getElementById('lightRedSlider');
+      const lightGreenSlider = document.getElementById('lightGreenSlider');
+      const lightBlueSlider = document.getElementById('lightBlueSlider');
+      const lightRedValue = document.getElementById('lightRedValue');
+      const lightGreenValue = document.getElementById('lightGreenValue');
+      const lightBlueValue = document.getElementById('lightBlueValue');
+      
+      lightRedSlider.addEventListener('input', function() {
+        lightRedValue.textContent = this.value + '%';
+      });
+      
+      lightGreenSlider.addEventListener('input', function() {
+        lightGreenValue.textContent = this.value + '%';
+      });
+      
+      lightBlueSlider.addEventListener('input', function() {
+        lightBlueValue.textContent = this.value + '%';
+      });
+      
+      
+    });
+  </script>
+</body>
+</html>
